@@ -1,0 +1,69 @@
+<!doctype html>
+
+<head>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="main.css" rel='stylesheet' type="text/css">
+        <title>NewsApp</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+
+<body>
+    <div class="container">
+        <div class="result">
+
+        </div>
+    </div>
+    <script>
+        fetch('https://api.nytimes.com/svc/topstories/v2/arts.json?api-key=am0JJ0PFSMP42crT9zngJ7unUuD0znSp')
+            .then(response => response.json())
+            .then(user => {
+                console.log(user.results);
+                let data = user.results;
+                data.forEach(myFunction);
+
+                function myFunction(item,index) {
+                    output = `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class=styles>
+                                        ${data[index].section}
+                                    </p>
+                                    <p class=headline>
+                                        ${data[index].title}
+                                    </p>
+                                    <p class=by>
+                                        ${data[index].byline}
+                                    </p>
+                                    <p class="date">
+                                        ${data[index].created_date}
+                                    </p>
+                                    <p class="abstract">
+                                         ${data[index].abstract}
+                                    </p>
+                                    <p class="type">
+                                        ${data[index].item_type}
+                                    </p>
+                                    <p class="type">
+                                        <a href="${data[index].short_url}">
+                                continue reading</a>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                        <img class ="image" src="${data[index].multimedia[4].url}" alt="">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>`;
+                    document.querySelector('.result').innerHTML += output;
+                }
+            });
+    </script>
+</body>
